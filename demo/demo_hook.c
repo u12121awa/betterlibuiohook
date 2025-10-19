@@ -58,9 +58,9 @@ bool logger_proc(unsigned int level, const char *format, ...) {
 // do so by copying the event to your own queued dispatch thread.
 void dispatch_proc(uiohook_event * const event) {
     char buffer[256] = { 0 };
-    size_t length = snprintf(buffer, sizeof(buffer), 
-            "id=%i,when=%" PRIu64 ",mask=0x%X", 
-            event->type, event->time, event->mask);
+    size_t length = snprintf(buffer, sizeof(buffer),
+               "id=%i,when=%" PRIu64 ",mask=0x%X,extraInfo=%i",
+               event->type, event->time, event->mask, event->extraInfo);
     
     switch (event->type) {
         case EVENT_KEY_PRESSED:

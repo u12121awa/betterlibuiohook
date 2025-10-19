@@ -139,7 +139,7 @@ void hook_start_proc() {
 
     event.type = EVENT_HOOK_ENABLED;
     event.mask = 0x00;
-
+    event.extraInfo = 0x00;
     // Fire the hook start event.
     dispatch_event(&event);
 }
@@ -154,7 +154,7 @@ void hook_stop_proc() {
 
     event.type = EVENT_HOOK_DISABLED;
     event.mask = 0x00;
-
+    event.extraInfo = 0x00;
     // Fire the hook stop event.
     dispatch_event(&event);
 
@@ -182,6 +182,7 @@ static void process_key_pressed(KBDLLHOOKSTRUCT *kbhook) {
 
     event.type = EVENT_KEY_PRESSED;
     event.mask = get_modifiers();
+    event.extraInfo = kbhook->dwExtraInfo;
 
     event.data.keyboard.keycode = keycode_to_scancode(kbhook->vkCode, kbhook->flags);
     event.data.keyboard.rawcode = (uint16_t) kbhook->vkCode;
@@ -207,6 +208,7 @@ static void process_key_pressed(KBDLLHOOKSTRUCT *kbhook) {
 
             event.type = EVENT_KEY_TYPED;
             event.mask = get_modifiers();
+            event.extraInfo = kbhook->dwExtraInfo;
 
             event.data.keyboard.keycode = VC_UNDEFINED;
             event.data.keyboard.rawcode = (uint16_t) kbhook->vkCode;
@@ -241,6 +243,7 @@ static void process_key_released(KBDLLHOOKSTRUCT *kbhook) {
 
     event.type = EVENT_KEY_RELEASED;
     event.mask = get_modifiers();
+    event.extraInfo = kbhook->dwExtraInfo;
 
     event.data.keyboard.keycode = keycode_to_scancode(kbhook->vkCode, kbhook->flags);
     event.data.keyboard.rawcode = (uint16_t) kbhook->vkCode;
@@ -317,6 +320,7 @@ static void process_button_pressed(MSLLHOOKSTRUCT *mshook, uint16_t button) {
 
     event.type = EVENT_MOUSE_PRESSED;
     event.mask = get_modifiers();
+    event.extraInfo = mshook->dwExtraInfo;
 
     event.data.mouse.button = button;
     event.data.mouse.clicks = click_count;
@@ -339,7 +343,7 @@ static void process_button_released(MSLLHOOKSTRUCT *mshook, uint16_t button) {
 
     event.type = EVENT_MOUSE_RELEASED;
     event.mask = get_modifiers();
-
+    event.extraInfo = mshook->dwExtraInfo;
     event.data.mouse.button = button;
     event.data.mouse.clicks = click_count;
 
@@ -362,7 +366,7 @@ static void process_button_released(MSLLHOOKSTRUCT *mshook, uint16_t button) {
 
         event.type = EVENT_MOUSE_CLICKED;
         event.mask = get_modifiers();
-
+        event.extraInfo = mshook->dwExtraInfo;
         event.data.mouse.button = button;
         event.data.mouse.clicks = click_count;
         event.data.mouse.x = (int16_t) mshook->pt.x;
@@ -399,7 +403,7 @@ static void process_mouse_moved(MSLLHOOKSTRUCT *mshook) {
         event.reserved = 0x00;
 
         event.mask = get_modifiers();
-
+        event.extraInfo = mshook->dwExtraInfo;
         // Check the modifier mask range for MASK_BUTTON1 - 5.
         bool mouse_dragged = event.mask & (MASK_BUTTON1 | MASK_BUTTON2 | MASK_BUTTON3 | MASK_BUTTON4 | MASK_BUTTON5);
         if (mouse_dragged) {
@@ -436,7 +440,7 @@ static void process_mouse_wheel(MSLLHOOKSTRUCT *mshook, uint8_t direction) {
 
     event.type = EVENT_MOUSE_WHEEL;
     event.mask = get_modifiers();
-
+    event.extraInfo = mshook->dwExtraInfo;
     event.data.wheel.clicks = click_count;
     event.data.wheel.x = (int16_t) mshook->pt.x;
     event.data.wheel.y = (int16_t) mshook->pt.y;

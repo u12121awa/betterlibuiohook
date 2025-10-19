@@ -103,6 +103,7 @@ int main() {
 
     event->type = EVENT_KEY_PRESSED;
     event->mask = 0x00;
+    event->extraInfo = 0x00;
     event->data.keyboard.keychar = CHAR_UNDEFINED;
     event->data.keyboard.keycode = VC_ESCAPE;
     hook_post_event(event);
@@ -111,6 +112,7 @@ int main() {
     //* Key press with modifier example
     event->type = EVENT_KEY_PRESSED;
     event->mask = 0x00;
+    event->extraInfo = 0x00;
     event->data.keyboard.keychar = CHAR_UNDEFINED;
 
     event->data.keyboard.keycode = VC_SHIFT_L;

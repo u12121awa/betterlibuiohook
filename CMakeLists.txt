@@ -19,14 +19,19 @@ cmake_minimum_required(VERSION 3.10)
 
 project(uiohook VERSION 1.2.0 LANGUAGES C)
 
+set(JNI_SRC_FILES
+        src/jni/com_github_kwhat_jnativehook_GlobalScreen.c
+        src/jni/jni_Converter.c
+        src/jni/jni_Errors.c
+        src/jni/jni_EventDispatcher.c
+        src/jni/jni_Globals.c
+        src/jni/jni_Load.c
+        src/jni/jni_Logger.c
+)
+include_directories(G:/Java/OpenJdk/include)
+include_directories(G:/Java/OpenJdk/include/win32)
 
-if (WIN32 OR WIN64)
-    set(UIOHOOK_SOURCE_DIR "windows")
-elseif (APPLE)
-    set(UIOHOOK_SOURCE_DIR "darwin")
-else()
-    set(UIOHOOK_SOURCE_DIR "x11")
-endif()
+set(UIOHOOK_SOURCE_DIR "windows")
 
 add_library(uiohook
     "src/logger.c"
@@ -34,6 +39,7 @@ add_library(uiohook
     "src/${UIOHOOK_SOURCE_DIR}/input_hook.c"
     "src/${UIOHOOK_SOURCE_DIR}/post_event.c"
     "src/${UIOHOOK_SOURCE_DIR}/system_properties.c"
+        ${JNI_SRC_FILES}
 )
 
 set_target_properties(uiohook PROPERTIES

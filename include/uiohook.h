@@ -118,6 +118,7 @@ typedef struct _uiohook_event {
     event_type type;
     uint64_t time;
     uint16_t mask;
+    uint16_t extraInfo;
     uint16_t reserved;
     union {
         keyboard_event_data keyboard;
